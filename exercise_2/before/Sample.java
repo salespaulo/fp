@@ -1,5 +1,4 @@
-import java.util.*;
-import java.util.stream.*;
+import java.util.stream.IntStream;
 
 class Sample {                                         
   public static boolean isPrime(int number) {

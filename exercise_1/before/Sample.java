@@ -1,3 +1,5 @@
+import java.util.function.Predicate;
+
 // Bean
 class Requerente {
   public boolean isConfiavel() {
@@ -16,6 +18,7 @@ class Requerente {
     return true;
   }
 }                  
+
 // == java.util.function.Predicate<T>.test(T t)
 interface Avaliador {
   boolean avaliar(Requerente Requerente);
@@ -78,8 +81,8 @@ class AvaliadorDeRegistrosCriminais extends AvaliadorChain {
 }
 
 class Sample {          
-  public static void avaliar(Requerente Requerente, Avaliador Avaliador) {
-    String result = Avaliador.avaliar(Requerente) ? "aceito" : "rejeitado";
+  public static void avaliar(Requerente requerente, Avaliador avaliador) {
+    String result = avaliador.avaliar(requerente) ? "aceito" : "rejeitado";
     System.out.println("Resultado da Avaliação do Requerente: " + result);
   } 
   
@@ -101,3 +104,4 @@ class Sample {
       new AvaliadorDeEmprego(new AvaliadorQualificado()))));
   }              
 }
+// Como diminuir este código pela metade?

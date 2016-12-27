@@ -1,99 +1,100 @@
-class Applicant {
-  public boolean isCredible() {
+// Bean
+class Requerente {
+  public boolean isConfiavel() {
     return true;    
   }                            
   
-  public int getCreditScore() {
+  public int getPontuacaoDeCredito() {
     return 700;
   }
   
-  public int getEmploymentYears() {
+  public int getAnosDeEmprego() {
     return 10;
   }
   
-  public boolean hasCriminalRecord() {
+  public boolean hasRegistroCriminal() {
     return true;
   }
 }                  
-                                       
-interface Evaluator {
-  boolean evaluate(Applicant applicant);
+ 
+interface Avaliador {
+  boolean avaliar(Requerente Requerente);
 } 
 
-class QualifiedEvaluator implements Evaluator {
-  public boolean evaluate(Applicant applicant) {
-    return applicant.isCredible();
+class AvaliadorQualificado implements Avaliador {
+  public boolean avaliar(Requerente requerente) {
+    return requerente.isConfiavel();
   }
 }     
 
-class EvaluatorChain implements Evaluator {
-  private Evaluator next;
+class AvaliadorChain implements Avaliador {
+  private Avaliador next;
   
-  public EvaluatorChain(Evaluator nextEvaluator) {
-    next = nextEvaluator;
+  public AvaliadorChain(Avaliador next) {
+    this.next = next;
   }                      
   
-  public boolean evaluate(Applicant applicant) {
-    return next.evaluate(applicant);
+  public boolean avaliar(Requerente requerente) {
+    return next.avaliar(requerente);
   }
 }
 
-class CreditEvaluator extends EvaluatorChain {
-  public CreditEvaluator(Evaluator next) {
+class AvaliadorDeCredito extends AvaliadorChain {
+  public AvaliadorDeCredito (Avaliador next) {
     super(next);
   }             
   
-  public boolean evaluate(Applicant applicant) {
-    if(applicant.getCreditScore() > 600)
-      return super.evaluate(applicant);
+  public boolean avaliar(Requerente requerente) {
+    if(requerente.getPontuacaoDeCredito() > 600)
+      return super.avaliar(requerente);
     return false;
   }
 }
 
-class EmploymentEvaluator extends EvaluatorChain {
-  public EmploymentEvaluator(Evaluator next) {
+class AvaliadorDeEmprego extends AvaliadorChain {
+  public AvaliadorDeEmprego (Avaliador next) {
     super(next);
   }             
   
-  public boolean evaluate(Applicant applicant) {
-    if(applicant.getEmploymentYears() > 0)
-      return super.evaluate(applicant);
+  public boolean avaliador(Requerente requerente) {
+    if(requerente.getAnosDeEmprego() > 0)
+      return super.avaliar(requerente);
     return false;
   }
 }
 
-class CriminalRecordsEvaluator extends EvaluatorChain {
-  public CriminalRecordsEvaluator(Evaluator next) {
+class AvaliadorDeRegistrosCriminais extends AvaliadorChain {
+  public AvaliadorDeRegistrosCriminais(Avaliador next) {
     super(next);
   }             
   
-  public boolean evaluate(Applicant applicant) {
-    if(!applicant.hasCriminalRecord())
-      return super.evaluate(applicant);
+  public boolean avaliar(Requerente Requerente) {
+    if(!Requerente.hasRegistroCriminal())
+      return super.avaliar(Requerente);
     return false;
   }
 }
 
 class Sample {          
-  public static void evaluate(Applicant applicant, Evaluator evaluator) {
-    String result = evaluator.evaluate(applicant) ? "accepted" : "rejected";
-    System.out.println("Result of evaluating applicant: " + result);
+  public static void avaliar(Requerente Requerente, Avaliador Avaliador) {
+    String result = Avaliador.avaliar(Requerente) ? "aceito" : "rejeitado";
+    System.out.println("Resultado da Avaliação do Requerente: " + result);
   } 
   
   public static void main(String[] args) {
-    Applicant applicant = new Applicant();
-    evaluate(applicant, new CreditEvaluator(new QualifiedEvaluator()));
+    Requerente Requerente = new Requerente();
+    avaliar(Requerente, new AvaliadorDeCredito(new AvaliadorQualificado()));
     
-    evaluate(applicant, 
-      new CreditEvaluator(new EmploymentEvaluator(new QualifiedEvaluator())));
+    avaliar(Requerente, 
+      new AvaliadorDeCredito(new AvaliadorDeEmprego(new AvaliadorQualificado())));
 
-    evaluate(applicant, 
-      new CriminalRecordsEvaluator(
-      new EmploymentEvaluator(new QualifiedEvaluator())));
+    avaliar(Requerente, 
+      new AvaliadorDeRegistrosCriminais(
+      new AvaliadorDeEmprego(new AvaliadorQualificado())));
 
-    evaluate(applicant, 
-      new CriminalRecordsEvaluator(
-      new CreditEvaluator(
-      new EmploymentEvaluator(new QualifiedEvaluator()))));
+    avaliar(Requerente, 
+      new AvaliadorDeRegistrosCriminais(
+      new AvaliadorDeCredito(
+      new AvaliadorDeEmprego(new AvaliadorQualificado()))));
   }              
 }

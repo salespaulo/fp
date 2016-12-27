@@ -1,5 +1,3 @@
-import java.util.function.Predicate;
-
 // Bean
 class Requerente {
   public boolean isConfiavel() {

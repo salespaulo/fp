@@ -16,7 +16,7 @@ class Requerente {
     return true;
   }
 }                  
- 
+// == java.util.function.Predicate<T>.test(T t)
 interface Avaliador {
   boolean avaliar(Requerente Requerente);
 } 
@@ -27,6 +27,8 @@ class AvaliadorQualificado implements Avaliador {
   }
 }     
 
+// Um monte de avaliadores implementando Avaliador
+// Recursividade OU DesignPattern ??
 class AvaliadorChain implements Avaliador {
   private Avaliador next;
   
@@ -83,6 +85,7 @@ class Sample {
   
   public static void main(String[] args) {
     Requerente Requerente = new Requerente();
+    
     avaliar(Requerente, new AvaliadorDeCredito(new AvaliadorQualificado()));
     
     avaliar(Requerente, 

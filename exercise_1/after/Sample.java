@@ -20,10 +20,7 @@ class Requerente {
 
 class Sample {
 	public static void avaliar(Requerente requerente, Predicate<Requerente> avaliador) {
-		String result = requerente.isConfiavel() && 
-				avaliador.test(requerente) 
-				? "accepted" : "rejected";
-
+		String result = avaliador.test(requerente) ? "accepted" : "rejected";
 		System.out.println("Resultado da Avaliação do Requerente: " + result);
 	}
 

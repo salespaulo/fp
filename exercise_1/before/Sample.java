@@ -85,21 +85,27 @@ class Sample {
   } 
   
   public static void main(String[] args) {
-    Requerente Requerente = new Requerente();
+    Requerente requerente = new Requerente();
     
-    avaliar(Requerente, new AvaliadorDeCredito(new AvaliadorQualificado()));
+    avaliar(requerente, 
+            new AvaliadorDeCredito(
+              new AvaliadorQualificado()));
     
-    avaliar(Requerente, 
-      new AvaliadorDeCredito(new AvaliadorDeEmprego(new AvaliadorQualificado())));
-
-    avaliar(Requerente, 
-      new AvaliadorDeRegistrosCriminais(
-      new AvaliadorDeEmprego(new AvaliadorQualificado())));
-
-    avaliar(Requerente, 
-      new AvaliadorDeRegistrosCriminais(
+    avaliar(requerente, 
       new AvaliadorDeCredito(
-      new AvaliadorDeEmprego(new AvaliadorQualificado()))));
+        new AvaliadorDeEmprego(
+          new AvaliadorQualificado())));
+
+    avaliar(requerente, 
+      new AvaliadorDeRegistrosCriminais(
+        new AvaliadorDeEmprego(
+          new AvaliadorQualificado())));
+
+    avaliar(requerente, 
+      new AvaliadorDeRegistrosCriminais(
+        new AvaliadorDeCredito(
+          new AvaliadorDeEmprego(
+            new AvaliadorQualificado()))));
   }              
 }
 // Como diminuir este código pela metade?
